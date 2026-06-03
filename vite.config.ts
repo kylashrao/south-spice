@@ -27,7 +27,7 @@ if (!basePath) {
 }
 
 export default defineConfig({
-  base: basePath,
+  base: '/south-spice/', // 👈 Tells Vite your site is on a GitHub subfolder
   plugins: [
     react(),
     tailwindcss(),
