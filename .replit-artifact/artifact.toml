@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "South Spice — South Indian Recipes"
+version = "1.0.0"
+id = "artifacts/south-spice"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26104
+
+[services.development]
+run = "pnpm --filter @workspace/south-spice run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/south-spice", "run", "build" ]
+publicDir = "artifacts/south-spice/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26104"
+BASE_PATH = "/"
