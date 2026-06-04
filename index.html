@@ -7,6 +7,18 @@
     
     <link rel="stylesheet" crossorigin href="./assets/index-B3zrICKi.css">
     <script type="module" crossorigin src="./assets/index-BGHH31mi.js"></script>
+
+    <script>
+      const observer = new MutationObserver((mutations) => {
+        document.querySelectorAll('img').forEach(img => {
+          // If the image source points to the root /images/ instead of the repository folder
+          if (img.src.includes(window.location.origin + '/images/')) {
+            img.src = img.src.replace('/images/', '/south-spice/images/');
+          }
+        });
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+    </script>
   </head>
   <body>
     <div id="root"></div>
