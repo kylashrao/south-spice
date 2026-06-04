@@ -7,6 +7,27 @@
     
     <link rel="stylesheet" crossorigin href="./assets/index-B3zrICKi.css">
     <script type="module" crossorigin src="./assets/index-BGHH31mi.js"></script>
+
+    <!-- Hotfix to map image assets directly to your Replit production build -->
+    <script>
+      const originalFetch = window.fetch;
+      window.fetch = async function(...args) {
+        if (typeof args[0] === 'string' && args[0].includes('/images/')) {
+          args[0] = args[0].replace(window.location.origin, 'https://south-spice.kylashrao.repl.co/artifacts/south-spice/dist/public');
+        }
+        return originalFetch.apply(this, args);
+      };
+      
+      // Intercept background images or native image elements
+      const observer = new MutationObserver((mutations) => {
+        document.querySelectorAll('img').forEach(img => {
+          if (img.src.includes(window.location.origin + '/images/')) {
+            img.src = img.src.replace(window.location.origin, 'https://south-spice.kylashrao.repl.co/artifacts/south-spice/dist/public');
+          }
+        });
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+    </script>
   </head>
   <body>
     <div id="root"></div>
