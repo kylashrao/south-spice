@@ -20,7 +20,7 @@ import Contact from "@/pages/contact";
 import CookedHistory from "@/pages/cooked-history";
 import Newsletter from "@/pages/newsletter";
 
-import { Switch, Route } from "wouter";
+//import { Switch, Route } from "wouter";
 import Home from "@/pages/home";
 import About from "@/pages/about"; // Or wherever your About component is
 import Privacy from "@/pages/privacy"; 
