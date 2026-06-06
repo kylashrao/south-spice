@@ -66,7 +66,7 @@ export function Navbar() {
             </Button>
           </Link>
           <SubscribeDialog>
-            <Button className="bg-[#C85A32] rounded-full font-medium tracking-wide gap-1.5 text-xs lg:text-sm px-3 lg:px-4">
+            <Button className="bg-[#C85A32] hover:bg-[#B24F2A] rounded-full font-medium tracking-wide gap-1.5 text-xs lg:text-sm px-3 lg:px-4">
               {isSubscribed ? (
                 <>
                   <Check className="w-4 h-4" />
