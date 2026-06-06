@@ -21,11 +21,11 @@ import CookedHistory from "@/pages/cooked-history";
 import Newsletter from "@/pages/newsletter";
 
 //import { Switch, Route } from "wouter";
-import Home from "@/pages/Home";
-import About from "@/pages/About"; // Or wherever your About component is
-import Privacy from "@/pages/Privacy"; 
-import Terms from "@/pages/Terms";
-import Contact from "@/pages/Contact";
+import Home from "@/pages/Home.tsx";
+import About from "@/pages/About.tsx"; // Or wherever your About component is
+import Privacy from "@/pages/Privacy.tsx"; 
+import Terms from "@/pages/Terms.tsx";
+import Contact from "@/pages/Contact.tsx";
 
 const queryClient = new QueryClient();
 
