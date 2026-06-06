@@ -20,6 +20,13 @@ import Contact from "@/pages/contact";
 import CookedHistory from "@/pages/cooked-history";
 import Newsletter from "@/pages/newsletter";
 
+import { Switch, Route } from "wouter";
+import Home from "@/pages/Home";
+import About from "@/pages/About"; // Or wherever your About component is
+import Privacy from "@/pages/Privacy"; 
+import Terms from "@/pages/Terms";
+import Contact from "@/pages/Contact";
+
 const queryClient = new QueryClient();
 
 function Router() {
@@ -47,14 +54,16 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <Switch>
+      <Route path="/" component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/contact" component={Contact} />
+      
+      {/* This handles the fallback 404 if a route doesn't match */}
+      <Route>404 Not Found</Route> 
+    </Switch>
   );
 }
 
