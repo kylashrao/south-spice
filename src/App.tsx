@@ -29,9 +29,10 @@ import Contact from "@/pages/contact";
 
 const queryClient = new QueryClient();
 
-function Router() {
+export default function App() {
   return (
     <Switch>
+      {/* Core Pages */}
       <Route path="/" component={Home} />
       <Route path="/recipes" component={Recipes} />
       <Route path="/recipes/:slug" component={RecipeDetail} />
@@ -40,29 +41,18 @@ function Router() {
       <Route path="/shopping-list" component={ShoppingList} />
       <Route path="/pantry" component={Pantry} />
       <Route path="/meal-plan" component={MealPlan} />
-      <Route path="/about" component={About} />
-      <Route path="/privacy" component={Privacy} />
-      <Route path="/terms" component={Terms} />
-      <Route path="/contact" component={Contact} />
       <Route path="/cooked-history" component={CookedHistory} />
       <Route path="/newsletter" component={Newsletter} />
       <Route path="/search" component={SearchPage} />
-      <Route component={NotFound} />
-    </Switch>
-  );
-}
 
-function App() {
-  return (
-    <Switch>
-      <Route path="/" component={Home} />
+      {/* Footer / Info Pages */}
       <Route path="/about" component={About} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route path="/contact" component={Contact} />
-      
-      {/* This handles the fallback 404 if a route doesn't match */}
-      <Route>404 Not Found</Route> 
+
+      {/* Catch-all Fallback 404 */}
+      <Route component={NotFound} />
     </Switch>
   );
 }
