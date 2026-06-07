@@ -78,7 +78,7 @@ export default function RecipeDetail() {
       <main className="flex-1 print-hidden">
         {/* Hero */}
         <section className="relative">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-secondary/40 via-background to-background print-hidden" />
+          <div className="absolute inset-0 -z-10 bg-stone-50 print-hidden" />
 
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 lg:pt-12">
             <Link
