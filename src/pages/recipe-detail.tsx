@@ -38,6 +38,22 @@ export default function RecipeDetail() {
   const [servings, setServings] = useState(recipe?.servings || 2);
   const [cookedStatus, setCookedStatus] = useState(recipe?.isCooked || false);
 
+  // ------------------------------------------------------------------
+  // CRITICAL: MAKE SURE THERE IS NO OTHER "const recipe =" OR 
+  // "const [servings] =" BLOCK DIRECTLY BELOW THIS LINE! 
+  // If there is, delete it completely.
+  // ------------------------------------------------------------------
+
+  // The component should continue smoothly into your handlers and effects:
+  const { addRecipe, removeRecipe, isSaved } = useSavedRecipes();
+  const saved = recipe ? isSaved(recipe.id) : false;
+
+  useEffect(() => {
+    if (recipe) {
+      setCookedStatus(recipe.isCooked || false);
+    }
+  }, [recipe]);
+
   useEffect(() => {
     setServings(baseServings);
   }, [baseServings]);
