@@ -26,7 +26,7 @@ export function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0 z-50 relative">
-          <div className="w-10 h-10 rounded-full bg-[#C85A32] bg-primary flex items-center justify-center text-primary-foreground font-serif font-bold text-xl italic shadow-sm">
+          <div className="w-10 h-10 rounded-full bg-[#C85A32] hover:bg-[#B24F2A] bg-primary flex items-center justify-center text-primary-foreground font-serif font-bold text-xl italic shadow-sm">
             S
           </div>
           <span className="font-serif font-bold text-2xl tracking-tight text-foreground">
