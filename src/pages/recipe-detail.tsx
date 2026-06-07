@@ -23,30 +23,22 @@ const MIN_SERVINGS = 1;
 const MAX_SERVINGS = 24;
 
 export default function RecipeDetail() {
-  const params = useParams<{ slug: string }>();
-  const recipe = getRecipeBySlug(params.slug);
-  const { isSaved, toggleSaved } = useSavedRecipes();
-  const { notes } = useCookingNotes(recipe?.id ?? "__unknown__");
-  const { toast } = useToast();
-  const baseServings = recipe?.servings ?? 1;
-  const [servings, setServings] = useState<number>(baseServings);
+  const [params] = useRoute("/recipes/:slug");
+  const [, setLocation] = useLocation();
   const [cookModeOpen, setCookModeOpen] = useState(false);
 
-  const recipe = mockRecipes.find((r) => r.slug === params.slug);
+  const recipe = mockRecipes.find((r) => r.slug === params?.slug);
 
-    // ADD OPTIONAL CHAINING (?.) AND LOGICAL FALLBACKS (||) HERE:
   const [servings, setServings] = useState(recipe?.servings || 2);
   const [cookedStatus, setCookedStatus] = useState(recipe?.isCooked || false);
 
-  // ------------------------------------------------------------------
-  // CRITICAL: MAKE SURE THERE IS NO OTHER "const recipe =" OR 
-  // "const [servings] =" BLOCK DIRECTLY BELOW THIS LINE! 
-  // If there is, delete it completely.
-  // ------------------------------------------------------------------
-
-  // The component should continue smoothly into your handlers and effects:
   const { addRecipe, removeRecipe, isSaved } = useSavedRecipes();
+  
+  // Base settings for calculations
+  const baseServings = recipe?.servings || 2;
   const saved = recipe ? isSaved(recipe.id) : false;
+  const ratio = servings / baseServings;
+  const isAdjusted = servings !== baseServings;
 
   useEffect(() => {
     if (recipe) {
@@ -54,40 +46,12 @@ export default function RecipeDetail() {
     }
   }, [recipe]);
 
-  useEffect(() => {
-    setServings(baseServings);
-  }, [baseServings]);
-
-  if (!recipe) {
-    return <NotFound />;
-  }
-
-  const saved = isSaved(recipe.id);
-  const ratio = servings / baseServings;
-  const isAdjusted = servings !== baseServings;
-  const decrement = () => setServings((s) => Math.max(MIN_SERVINGS, s - 1));
-  const increment = () => setServings((s) => Math.min(MAX_SERVINGS, s + 1));
-  const reset = () => setServings(baseServings);
-
-  function handleSave() {
-    if (!recipe) return;
-    const nowSaved = toggleSaved(recipe.id);
-    toast({
-      title: nowSaved ? "Saved to your collection" : "Removed from your collection",
-      description: nowSaved
-        ? `${recipe.title} is waiting in My Recipes.`
-        : `${recipe.title} is no longer saved.`,
-    });
-  }
-
+  // Related recipes safety filter
   const related = mockRecipes
     .filter((r) => r && recipe && r.id !== recipe.id && r.region === recipe?.region)
     .slice(0, 3);
 
-  const fallbackRelated = mockRecipes.filter((r) => r && recipe && r.id !== recipe.id).slice(0, 3);
-  const suggestions = related.length >= 2 ? related : fallbackRelated;
-
-  // ADD THIS ACCIDENT-PREVENTION GUARD:
+  // CRITICAL LOADING GUARD
   if (!recipe) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
