@@ -167,6 +167,7 @@ export default function RecipeDetail() {
                   <CookedRatingWidget recipeId={recipe.id} />
                 </div>
               </motion.div>
+            </AnimatePresence>
 
               <motion.div
                 initial={{ opacity: 0, scale: 0.96 }}
