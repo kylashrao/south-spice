@@ -100,11 +100,12 @@ export default function RecipeDetail() {
             </Link>
 
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+              <AnimatePresence mode="wait">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="order-2 lg:order-1 print-hidden"
+               key={recipe?.id || 'recipe-detail'} // <--- Safe, bulletproof string key
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
               >
                 <div className="flex flex-wrap items-center gap-2 mb-5">
                   <span className="bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full">
