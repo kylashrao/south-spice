@@ -32,6 +32,12 @@ export default function RecipeDetail() {
   const [servings, setServings] = useState<number>(baseServings);
   const [cookModeOpen, setCookModeOpen] = useState(false);
 
+  const recipe = mockRecipes.find((r) => r.slug === params.slug);
+
+    // ADD OPTIONAL CHAINING (?.) AND LOGICAL FALLBACKS (||) HERE:
+  const [servings, setServings] = useState(recipe?.servings || 2);
+  const [cookedStatus, setCookedStatus] = useState(recipe?.isCooked || false);
+
   useEffect(() => {
     setServings(baseServings);
   }, [baseServings]);
@@ -59,8 +65,8 @@ export default function RecipeDetail() {
   }
 
   const related = mockRecipes
-  .filter((r) => r && recipe && r.id !== recipe.id && r.region === recipe?.region)
-  .slice(0, 3);
+    .filter((r) => r && recipe && r.id !== recipe.id && r.region === recipe?.region)
+    .slice(0, 3);
 
   const fallbackRelated = mockRecipes.filter((r) => r && recipe && r.id !== recipe.id).slice(0, 3);
   const suggestions = related.length >= 2 ? related : fallbackRelated;
