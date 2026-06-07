@@ -65,7 +65,7 @@ export default function RecipeDetail() {
   const suggestions = related.length >= 2 ? related : fallbackRelated;
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-white text-stone-900">
       <div className="print-hidden">
         <Navbar />
       </div>
