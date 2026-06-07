@@ -64,6 +64,15 @@ export default function RecipeDetail() {
   const fallbackRelated = mockRecipes.filter((r) => r.id !== recipe.id).slice(0, 3);
   const suggestions = related.length >= 2 ? related : fallbackRelated;
 
+  // ADD THIS ACCIDENT-PREVENTION GUARD:
+  if (!recipe) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <p className="text-muted-foreground animate-pulse">Loading recipe details...</p>
+      </div>
+    );
+  }
+  
   return (
     <div className="min-h-screen flex flex-col bg-white text-stone-900">
       <div className="print-hidden">
