@@ -130,10 +130,14 @@ export default function RecipeDetail() {
                 </p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 max-w-xl">
-                  <Stat icon={<Clock className="w-4 h-4" />} label="Cook" value={recipe.cookingTime} />
-                  <Stat icon={<Utensils className="w-4 h-4" />} label="Prep" value={recipe.prepTime.split("(")[0].trim()} />
-                  <Stat icon={<Users className="w-4 h-4" />} label="Serves" value={`${servings}`} />
-                  <Stat icon={<ChefHat className="w-4 h-4" />} label="Level" value={recipe.difficulty} />
+                  <Stat icon={<Clock className="w-4 h-4" />} label="Cook" value={recipe?.cookingTime || "N/A"} />
+                  <Stat 
+                    icon={<Utensils className="w-4 h-4" />} 
+                    label="Prep" 
+                    value={recipe?.prepTime ? recipe.prepTime.split("(")[0].trim() : "N/A"} 
+                  />
+                  <Stat icon={<Users className="w-4 h-4" />} label="Serves" value={`${servings || recipe?.servings || 2}`} />
+                  <Stat icon={<ChefHat className="w-4 h-4" />} label="Level" value={recipe?.difficulty || "Easy"} />
                 </div>
 
                 <div className="flex flex-wrap gap-3 print-hidden">
