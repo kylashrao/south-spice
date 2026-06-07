@@ -111,7 +111,7 @@ export default function RecipeDetail() {
                   <span className="bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full">
                     {recipe.region}
                   </span>
-                  {recipe.tags.slice(0, 3).map((tag) => (
+                  {recipe?.tags && recipe.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
                       className="bg-secondary/60 text-foreground/80 text-xs font-medium px-3 py-1.5 rounded-full"
