@@ -26,7 +26,7 @@ export function Footer() {
           
           <div className="md:col-span-2 space-y-6">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-serif font-bold text-2xl italic">
+              <div className="w-12 h-12 rounded-full bg-[#C85A32] bg-primary flex items-center justify-center text-primary-foreground font-serif font-bold text-2xl italic">
                 S
               </div>
               <span className="font-serif font-bold text-3xl tracking-tight">
