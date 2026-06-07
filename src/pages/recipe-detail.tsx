@@ -59,9 +59,10 @@ export default function RecipeDetail() {
   }
 
   const related = mockRecipes
-    .filter((r) => r.id !== recipe.id && r.region === recipe.region)
-    .slice(0, 3);
-  const fallbackRelated = mockRecipes.filter((r) => r.id !== recipe.id).slice(0, 3);
+  .filter((r) => r && recipe && r.id !== recipe.id && r.region === recipe?.region)
+  .slice(0, 3);
+
+  const fallbackRelated = mockRecipes.filter((r) => r && recipe && r.id !== recipe.id).slice(0, 3);
   const suggestions = related.length >= 2 ? related : fallbackRelated;
 
   // ADD THIS ACCIDENT-PREVENTION GUARD:
