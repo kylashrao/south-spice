@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/', // <--- Crucial step: tells Vite to output all compiled asset references relative to the root domain
+  base: '/', // Keeps asset references perfectly relative to your root domain
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -12,5 +12,9 @@ export default defineConfig({
   },
   css: {
     postcss: './postcss.config.js',
+  },
+  // Forces Vite/Vercel to clear internal build cache loops
+  optimizeDeps: {
+    force: true,
   },
 });
