@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Star, ChefHat, ArrowLeft } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
+//import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { mockRecipes } from "@/lib/mock-data";
@@ -28,7 +28,7 @@ export default function CookedHistory() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar />
+      {/* <Navbar />  */}
 
       <main className="flex-1 flex flex-col">
         <section className="py-16 bg-card/50 border-b border-border/50">
