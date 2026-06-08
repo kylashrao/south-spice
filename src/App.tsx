@@ -1,11 +1,11 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// Verified Local Relative Paths + Verified Lowercase Filenames
+// 1. Core Structural Layouts (Mismatched file casing fixed!)
 import Navbar from "./components/navbar";
-import Footer from "./components/footer";
+import Footer from "./components/Footer";
 
-// All Pages - Completely aligned with your repository disk layout
+// 2. All Pages - Verified strict lowercase disk match
 import Home from "./pages/home";
 import Recipes from "./pages/recipes";
 import RecipeDetail from "./pages/recipe-detail";
