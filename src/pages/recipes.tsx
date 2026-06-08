@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/layout/Navbar";
+//import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { RecipeCard } from "@/components/recipe/RecipeCard";
 import { mockRecipes } from "@/lib/mock-data";
@@ -6,7 +6,7 @@ import { mockRecipes } from "@/lib/mock-data";
 export default function Recipes() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar />
+      {/* <Navbar /> */}
       
       <main className="flex-1">
         <section className="py-16 md:py-24 bg-card/50 border-b border-border/50">
