@@ -32,6 +32,7 @@ function App() {
     { href: "/my-recipes", label: "My Book" },
     { href: "/pantry", label: "Pantry" },
     { href: "/meal-plan", label: "Meal Plan" },
+    { href: "/cooked-history", label: "Cooked" }
   ];
 
   return (
