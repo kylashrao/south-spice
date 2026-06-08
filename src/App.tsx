@@ -119,7 +119,9 @@ function App() {
           <Route path="/shopping-list" component={ShoppingList} />
           <Route path="/pantry" component={Pantry} />
           <Route path="/meal-plan" component={MealPlan} />
-          <Route path="/cooked-history" component={CookedHistory} />
+          //  Ensure it points to /cooked-history:
+          <Route path="/cooked-history" component={CookedPage} />
+          {/* <Route path="/cooked-history" component={CookedHistory} /> */}
           <Route path="/newsletter" component={Newsletter} />
           <Route path="/search" component={SearchPage} />
 
