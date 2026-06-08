@@ -24,46 +24,45 @@ const MAX_SERVINGS = 24;
 
 // To this (Destructuring the params prop sent by App.tsx):
 export default function RecipeDetail({ params }: { params: { slug: string } }) {
-  //const [params] = useRoute("/recipes/:slug");
   const [, setLocation] = useLocation();
   const [cookModeOpen, setCookModeOpen] = useState(false);
 
+  // 1. RUN THE LOOKUP IMMEDIATELY AT THE TOP
   const recipe = mockRecipes.find((r) => r.slug === params?.slug);
 
-  const [servings, setServings] = useState(recipe?.servings || 2);
-  const [cookedStatus, setCookedStatus] = useState(recipe?.isCooked || false);
+  // 2. IF RECIPE IS NOT FOUND YET, HALT AND SHOW LOADING IMMEDIATELY
+  // This prevents hooks and math ratios from running on broken/empty data!
+  if (!recipe) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+        <p className="text-muted-foreground animate-pulse font-medium">
+          Loading recipe details...
+        </p>
+      </div>
+    );
+  }
+
+  // 3. NOW THAT WE ARE 100% GUARANTEED TO HAVE A RECIPE, INITIALIZE STATES
+  const [servings, setServings] = useState(recipe.servings);
+  const [cookedStatus, setCookedStatus] = useState(recipe.isCooked || false);
 
   const { addRecipe, removeRecipe, isSaved } = useSavedRecipes();
   
-  // Base settings for calculations
-  const baseServings = recipe?.servings || 2;
-  const saved = recipe ? isSaved(recipe.id) : false;
+  // 4. CALCULATIONS ARE NOW TOTALLY SAFE FROM UNDEFINED CRASHES
+  const baseServings = recipe.servings;
+  const saved = isSaved(recipe.id);
   const ratio = servings / baseServings;
   const isAdjusted = servings !== baseServings;
 
   useEffect(() => {
-    if (recipe) {
-      setCookedStatus(recipe.isCooked || false);
-    }
+    setCookedStatus(recipe.isCooked || false);
   }, [recipe]);
 
-  // Related recipes safety filter
   const related = mockRecipes
-    .filter((r) => r && recipe && r.id !== recipe.id && r.region === recipe?.region)
+    .filter((r) => r && r.id !== recipe.id && r.region === recipe.region)
     .slice(0, 3);
 
-  // CRITICAL LOADING GUARD
-  // ... your setup code ...
-
-  if (!recipe) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-muted-foreground animate-pulse">Loading recipe details...</p>
-      </div>
-    );
-  }
-  
-  // BYPASS FRAMER MOTION TEMPORARILY TO TEST RUNTIME RENDERING:
+  // 5. RESTORE YOUR FULL ORIGINAL BEAUTIFUL LAYOUT RETURN BLOCK HERE:
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
