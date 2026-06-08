@@ -12,7 +12,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
+//import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import {
@@ -86,7 +86,7 @@ export default function MealPlanPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar />
+      {/*<Navbar /> */}
 
       <main className="flex-1">
         <section className="py-14 md:py-20 bg-card/50 border-b border-border/50 print-hidden">
