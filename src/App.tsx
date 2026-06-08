@@ -1,16 +1,18 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// Bypassing folder-name checking by jumping straight out and back into the explicit file names
-import Home from "../src/pages/home";
-import RecipeDetail from "../src/pages/recipe-detail";
-import SavedRecipes from "../src/pages/saved-recipes";
-import MealPlanner from "../src/pages/meal-planner";
-import GroceryList from "../src/pages/grocery-list";
-import SharedRecipe from "../src/pages/shared-recipe";
-import CategoryPage from "../src/pages/category";
-import RegionsPage from "./pages/regions"; 
-import NotFound from "../src/pages/not-found";
+// 1. Core Pages (Confirmed working lowercase folder structure)
+import Home from "./pages/home";
+import RecipeDetail from "./pages/recipe-detail";
+
+// 2. Secondary Feature Pages 
+import SavedRecipes from "./pages/saved-recipes";
+import MealPlanner from "./pages/meal-planner";
+import GroceryList from "./pages/grocery-list";
+import SharedRecipe from "./pages/shared-recipe";
+import CategoryPage from "./pages/category";
+import RegionsPage from "./pages/regions";
+import NotFound from "./pages/not-found";
 
 function App() {
   return (
