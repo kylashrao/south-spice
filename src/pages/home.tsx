@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar />
+      {/* Remove the <Navbar /> component from here since your main App layout already renders it globally */}
       
       <main className="flex-1">
         {/* Hero Section */}
