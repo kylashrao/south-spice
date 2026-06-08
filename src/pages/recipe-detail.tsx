@@ -23,7 +23,6 @@ export default function RecipeDetail() {
   const params = useParams<{ slug: string }>();
   const recipe = getRecipeBySlug(params.slug);
   const { isSaved, toggleSaved } = useSavedRecipes();
-  const { notes } = useCookingNotes(recipe?.id ?? "__unknown__");
   const { toast } = useToast();
   const baseServings = recipe?.servings ?? 1;
   const [servings, setServings] = useState<number>(baseServings);
@@ -68,131 +67,132 @@ export default function RecipeDetail() {
         <PrintRecipeCard recipe={recipe} servings={servings} ratio={ratio} isAdjusted={isAdjusted} baseServings={baseServings} />
       </div>
 
-      <main className="flex-1 print-hidden">
-        {/* Hero */}
-        <section className="relative">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-secondary/40 via-background to-background print-hidden" />
+      <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 print-hidden">
+        {/* Breadcrumb row */}
+        <div className="mx-auto max-w-7xl w-full mb-6">
+          <Link
+            href="/recipes"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to recipes
+          </Link>
+        </div>
 
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 lg:pt-12">
-            <Link
-              href="/recipes"
-              className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors mb-8 print-hidden"
+        {/* Hero Section */}
+        <section className="relative mx-auto max-w-7xl w-full mb-12">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            
+            {/* Meta Text Information */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="order-2 lg:order-1"
             >
-              <ArrowLeft className="w-4 h-4" />
-              Back to recipes
-            </Link>
-
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="order-2 lg:order-1 print-hidden"
-              >
-                <div className="flex flex-wrap items-center gap-2 mb-5">
-                  <span className="bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                    {recipe.region}
-                  </span>
-                  {recipe.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="bg-secondary/60 text-foreground/80 text-xs font-medium px-3 py-1.5 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight text-foreground mb-5">
-                  {recipe.title}
-                </h1>
-
-                <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-8">
-                  {recipe.description}
-                </p>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 max-w-xl">
-                  <Stat icon={<Clock className="w-4 h-4" />} label="Cook" value={recipe.cookingTime} />
-                  <Stat icon={<Utensils className="w-4 h-4" />} label="Prep" value={recipe.prepTime.split("(")[0].trim()} />
-                  <Stat icon={<Users className="w-4 h-4" />} label="Serves" value={`${servings}`} />
-                  <Stat icon={<ChefHat className="w-4 h-4" />} label="Level" value={recipe.difficulty} />
-                </div>
-
-                <div className="flex flex-wrap gap-3 print-hidden">
-                  <Button
-                    size="lg"
-                    onClick={handleSave}
-                    aria-pressed={saved}
-                    variant={saved ? "outline" : "default"}
-                    className="rounded-full px-6"
+              <div className="flex flex-wrap items-center gap-2 mb-5">
+                <span className="bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full">
+                  {recipe.region}
+                </span>
+                {recipe.tags.slice(0, 3).map((tag) => (
+                  <span
+                    key={tag}
+                    className="bg-secondary text-secondary-foreground text-xs font-medium px-3 py-1.5 rounded-full"
                   >
-                    {saved ? (
-                      <>
-                        <Check className="w-4 h-4 mr-2" />
-                        Saved
-                      </>
-                    ) : (
-                      <>
-                        <Bookmark className="w-4 h-4 mr-2" />
-                        Save Recipe
-                      </>
-                    )}
-                  </Button>
-                  <ShareMenu title={recipe.title} description={recipe.description} slug={recipe.slug} />
-                  <Button size="lg" variant="ghost" className="rounded-full px-6" onClick={() => window.print()}>
-                    <Printer className="w-4 h-4 mr-2" />
-                    Print
-                  </Button>
-                </div>
+                    {tag}
+                  </span>
+                ))}
+              </div>
 
-                <div className="mt-4 print-hidden">
-                  <CookedRatingWidget recipeId={recipe.id} />
-                </div>
-              </motion.div>
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight text-foreground mb-5">
+                {recipe.title}
+              </h1>
 
-              <motion.div
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className="order-1 lg:order-2 print-hidden"
-              >
-                <div className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5] shadow-2xl border border-border/50">
-                  <img
-                    src={recipe.image}
-                    alt={recipe.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/30 via-transparent to-transparent" />
-                </div>
-              </motion.div>
-            </div>
+              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-8">
+                {recipe.description}
+              </p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 max-w-xl">
+                <Stat icon={<Clock className="w-4 h-4" />} label="Cook" value={recipe.cookingTime} />
+                <Stat icon={<Utensils className="w-4 h-4" />} label="Prep" value={recipe.prepTime.split("(")[0].trim()} />
+                <Stat icon={<Users className="w-4 h-4" />} label="Serves" value={`${servings}`} />
+                <Stat icon={<ChefHat className="w-4 h-4" />} label="Level" value={recipe.difficulty} />
+              </div>
+
+              <div className="flex flex-wrap gap-3 mb-6">
+                <Button
+                  size="lg"
+                  onClick={handleSave}
+                  aria-pressed={saved}
+                  variant={saved ? "outline" : "default"}
+                  className="rounded-full px-6"
+                >
+                  {saved ? (
+                    <>
+                      <Check className="w-4 h-4 mr-2" />
+                      Saved
+                    </>
+                  ) : (
+                    <>
+                      <Bookmark className="w-4 h-4 mr-2" />
+                      Save Recipe
+                    </>
+                  )}
+                </Button>
+                <ShareMenu title={recipe.title} description={recipe.description} slug={recipe.slug} />
+                <Button size="lg" variant="ghost" className="rounded-full px-6" onClick={() => window.print()}>
+                  <Printer className="w-4 h-4 mr-2" />
+                  Print
+                </Button>
+              </div>
+
+              <div className="print-hidden">
+                <CookedRatingWidget recipeId={recipe.id} />
+              </div>
+            </motion.div>
+
+            {/* Main Featured Image Asset */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="order-1 lg:order-2"
+            >
+              <div className="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] shadow-xl border border-border/50">
+                <img
+                  src={recipe.image}
+                  alt={recipe.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* Story */}
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 mt-16 lg:mt-24">
+        {/* Narrative Story Section */}
+        <section className="mx-auto max-w-7xl w-full mt-12 lg:mt-16 border-t pt-10">
           <div className="max-w-3xl">
             <h2 className="font-serif text-sm uppercase tracking-[0.2em] text-primary mb-3">The story</h2>
-            <p className="font-serif text-2xl sm:text-3xl leading-snug text-foreground/90">
-              {recipe.story}
+            <p className="font-serif text-2xl sm:text-3xl leading-relaxed text-foreground/90 italic">
+              "{recipe.story}"
             </p>
           </div>
         </section>
 
-        {/* Body grid */}
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 mt-16 lg:mt-24">
+        {/* Preparation Method Split Layout Grid */}
+        <section className="mx-auto max-w-7xl w-full mt-16 lg:mt-24">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
-            {/* Ingredients */}
-            <aside className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start print-block print-avoid-break">
-              <div className="bg-card border border-border/60 rounded-2xl p-6 lg:p-8 shadow-sm print-block">
+            
+            {/* Interactive Ingredients Card Block */}
+            <aside className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
+              <div className="bg-card border border-border/80 rounded-2xl p-6 lg:p-8 shadow-sm">
                 <div className="flex items-baseline justify-between gap-3 mb-5">
                   <h2 className="font-serif text-2xl font-semibold">Ingredients</h2>
                   {isAdjusted && (
                     <button
                       type="button"
                       onClick={reset}
-                      className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1 print-hidden"
-                      aria-label="Reset to original servings"
+                      className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
                     >
                       <RotateCcw className="w-3 h-3" />
                       Reset
@@ -200,17 +200,12 @@ export default function RecipeDetail() {
                   )}
                 </div>
 
-                <div className="flex items-center justify-between gap-3 mb-6 p-3 rounded-xl bg-secondary/40 border border-border/40 print-hidden">
+                <div className="flex items-center justify-between gap-3 mb-6 p-3 rounded-xl bg-muted/50 border border-border/40">
                   <div className="flex items-center gap-2 text-sm">
                     <Users className="w-4 h-4 text-primary" />
                     <span className="font-medium text-foreground">
                       {servings} {servings === 1 ? "serving" : "servings"}
                     </span>
-                    {isAdjusted && (
-                      <span className="text-xs text-muted-foreground">
-                        (originally {baseServings})
-                      </span>
-                    )}
                   </div>
                   <div className="flex items-center gap-1">
                     <Button
@@ -220,7 +215,6 @@ export default function RecipeDetail() {
                       className="h-8 w-8 rounded-full"
                       onClick={decrement}
                       disabled={servings <= MIN_SERVINGS}
-                      aria-label="Decrease servings"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </Button>
@@ -231,17 +225,11 @@ export default function RecipeDetail() {
                       className="h-8 w-8 rounded-full"
                       onClick={increment}
                       disabled={servings >= MAX_SERVINGS}
-                      aria-label="Increase servings"
                     >
                       <Plus className="w-3.5 h-3.5" />
                     </Button>
                   </div>
                 </div>
-
-                <p className="hidden print-only text-xs mb-4 italic">
-                  Scaled for {servings} {servings === 1 ? "serving" : "servings"}
-                  {isAdjusted ? ` (originally ${baseServings})` : ""}.
-                </p>
 
                 <div className="space-y-7">
                   {recipe.ingredients.map((group) => (
@@ -255,7 +243,7 @@ export default function RecipeDetail() {
                             key={item.name}
                             className="flex items-baseline justify-between gap-3 py-2 border-b border-border/40 last:border-0"
                           >
-                            <span className="text-sm text-foreground/85 leading-relaxed">{item.name}</span>
+                            <span className="text-sm text-foreground/85">{item.name}</span>
                             <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">
                               {scaleQuantity(item.quantity, ratio)}
                             </span>
@@ -268,15 +256,14 @@ export default function RecipeDetail() {
               </div>
             </aside>
 
-            {/* Steps */}
+            {/* Directions Content Main Area */}
             <div className="lg:col-span-8">
               <div className="flex items-start justify-between gap-4 mb-2 flex-wrap">
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold">Method</h2>
                 <Button
                   type="button"
                   onClick={() => setCookModeOpen(true)}
-                  className="rounded-full gap-2 print-hidden"
-                  data-testid="button-cook-mode"
+                  className="rounded-full gap-2"
                 >
                   <Flame className="w-4 h-4" />
                   Cook Mode
@@ -313,7 +300,7 @@ export default function RecipeDetail() {
                 ))}
               </ol>
 
-              {/* Serving suggestions */}
+              {/* Suggestions */}
               <div className="mt-16">
                 <h2 className="font-serif text-3xl font-semibold mb-2">Serving suggestions</h2>
                 <p className="text-muted-foreground mb-6">A few ways to make it a meal.</p>
@@ -330,7 +317,7 @@ export default function RecipeDetail() {
                 </ul>
               </div>
 
-              {/* Tips */}
+              {/* Chef Notes Tips */}
               <div className="mt-14 bg-secondary/40 border border-border/60 rounded-2xl p-6 sm:p-8">
                 <div className="flex items-center gap-2 mb-4">
                   <Lightbulb className="w-5 h-5 text-primary" />
@@ -348,14 +335,14 @@ export default function RecipeDetail() {
                 </ul>
               </div>
 
-              {/* Your cooking notes */}
+              {/* User Dynamic Notes Input Section */}
               <CookingNotesSection recipeId={recipe.id} />
             </div>
           </div>
         </section>
 
-        {/* Related */}
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 mt-20 lg:mt-28 mb-20 print-hidden">
+        {/* Cross Promotion Recommendations */}
+        <section className="mx-auto max-w-7xl w-full mt-20 lg:mt-28 mb-20">
           <div className="flex items-end justify-between mb-10">
             <div>
               <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-2">You might also love</h2>
@@ -375,13 +362,6 @@ export default function RecipeDetail() {
             ))}
           </div>
         </section>
-        {/* Print-only footer */}
-        <footer className="print-only print-avoid-break mt-10 pt-4 border-t border-foreground/30 text-xs">
-          <p>
-            From <strong>South Spice</strong> · {recipe.region} · {typeof window !== "undefined" ? window.location.href : ""}
-          </p>
-          <p className="mt-1 italic opacity-80">{recipe.story}</p>
-        </footer>
       </main>
       
       <CookMode
@@ -407,7 +387,7 @@ function CookingNotesSection({ recipeId }: { recipeId: string }) {
   }
 
   return (
-    <div className="mt-14 border border-border/60 rounded-2xl p-6 sm:p-8 print-hidden">
+    <div className="mt-14 border border-border/60 rounded-2xl p-6 sm:p-8">
       <div className="flex items-center gap-2 mb-4">
         <Pencil className="w-5 h-5 text-primary" />
         <h2 className="font-serif text-2xl font-semibold">Your cooking notes</h2>
@@ -443,10 +423,7 @@ function CookingNotesSection({ recipeId }: { recipeId: string }) {
       ) : (
         <ul className="space-y-3">
           {notes.map((note) => (
-            <li
-              key={note.id}
-              className="flex items-start gap-3 group"
-            >
+            <li key={note.id} className="flex items-start gap-3 group">
               <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">
@@ -466,7 +443,6 @@ function CookingNotesSection({ recipeId }: { recipeId: string }) {
                 type="button"
                 onClick={() => deleteNote(note.id)}
                 className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-full hover:bg-destructive/10 hover:text-destructive text-muted-foreground"
-                aria-label="Delete note"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
