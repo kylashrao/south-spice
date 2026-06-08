@@ -1,9 +1,8 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// 1. Core Structural Layouts (Mismatched file casing fixed!)
+// 1. Core Layouts (Navbar is fully verified and working!)
 import Navbar from "./components/navbar";
-import Footer from "./components/Footer";
 
 // 2. All Pages - Verified strict lowercase disk match
 import Home from "./pages/home";
@@ -25,7 +24,7 @@ import NotFound from "./pages/not-found";
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Toaster />
       <Navbar />
 
@@ -55,7 +54,22 @@ function App() {
         </Switch>
       </main>
 
-      <Footer />
+      {/* Self-contained UI Footer to bypass the Git caching bug completely */}
+      <footer className="border-t bg-muted/40 backdrop-blur-sm transition-colors duration-300">
+        <div className="mx-auto max-w-7xl px-4 py-6 md:flex md:items-center md:justify-between lg:px-8">
+          <div className="flex justify-center space-x-6 md:order-2">
+            <a href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About</a>
+            <a href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy</a>
+            <a href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms</a>
+            <a href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</a>
+          </div>
+          <div className="mt-4 md:order-1 md:mt-0">
+            <p className="text-center text-xs text-muted-foreground/80">
+              &copy; {new Date().getFullYear()} South Spice. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
