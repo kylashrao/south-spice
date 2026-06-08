@@ -61,15 +61,17 @@ export default function RecipeDetail() {
   const suggestions = related.length >= 2 ? related : fallbackRelated;
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen w-full flex flex-col bg-background text-foreground antialiased">
       {/* Print-only recipe card */}
       <div className="print-only">
         <PrintRecipeCard recipe={recipe} servings={servings} ratio={ratio} isAdjusted={isAdjusted} baseServings={baseServings} />
       </div>
 
-      <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 print-hidden">
+      {/* Main Container Layer to force strict margins matching the navbar block */}
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 print-hidden">
+        
         {/* Breadcrumb row */}
-        <div className="mx-auto max-w-7xl w-full mb-6">
+        <div className="w-full mb-8">
           <Link
             href="/recipes"
             className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
@@ -79,16 +81,15 @@ export default function RecipeDetail() {
           </Link>
         </div>
 
-        {/* Hero Section */}
-        <section className="relative mx-auto max-w-7xl w-full mb-12">
+        {/* Hero Section Split Layout */}
+        <section className="w-full mb-16">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             
-            {/* Meta Text Information */}
+            {/* Meta Text Column */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="order-2 lg:order-1"
             >
               <div className="flex flex-wrap items-center gap-2 mb-5">
                 <span className="bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full">
@@ -151,12 +152,11 @@ export default function RecipeDetail() {
               </div>
             </motion.div>
 
-            {/* Main Featured Image Asset */}
+            {/* Featured Hero Asset Image */}
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="order-1 lg:order-2"
             >
               <div className="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] shadow-xl border border-border/50">
                 <img
@@ -169,8 +169,8 @@ export default function RecipeDetail() {
           </div>
         </section>
 
-        {/* Narrative Story Section */}
-        <section className="mx-auto max-w-7xl w-full mt-12 lg:mt-16 border-t pt-10">
+        {/* Narrative Story Line */}
+        <section className="w-full mt-12 border-t pt-10">
           <div className="max-w-3xl">
             <h2 className="font-serif text-sm uppercase tracking-[0.2em] text-primary mb-3">The story</h2>
             <p className="font-serif text-2xl sm:text-3xl leading-relaxed text-foreground/90 italic">
@@ -179,11 +179,11 @@ export default function RecipeDetail() {
           </div>
         </section>
 
-        {/* Preparation Method Split Layout Grid */}
-        <section className="mx-auto max-w-7xl w-full mt-16 lg:mt-24">
+        {/* Splitting Content Section Area */}
+        <section className="w-full mt-16 lg:mt-24">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
             
-            {/* Interactive Ingredients Card Block */}
+            {/* Interactive Ingredients Panel Block */}
             <aside className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
               <div className="bg-card border border-border/80 rounded-2xl p-6 lg:p-8 shadow-sm">
                 <div className="flex items-baseline justify-between gap-3 mb-5">
@@ -256,7 +256,7 @@ export default function RecipeDetail() {
               </div>
             </aside>
 
-            {/* Directions Content Main Area */}
+            {/* Directions Content Section */}
             <div className="lg:col-span-8">
               <div className="flex items-start justify-between gap-4 mb-2 flex-wrap">
                 <h2 className="font-serif text-3xl sm:text-4xl font-semibold">Method</h2>
@@ -300,7 +300,7 @@ export default function RecipeDetail() {
                 ))}
               </ol>
 
-              {/* Suggestions */}
+              {/* Suggestions Block */}
               <div className="mt-16">
                 <h2 className="font-serif text-3xl font-semibold mb-2">Serving suggestions</h2>
                 <p className="text-muted-foreground mb-6">A few ways to make it a meal.</p>
@@ -317,7 +317,7 @@ export default function RecipeDetail() {
                 </ul>
               </div>
 
-              {/* Chef Notes Tips */}
+              {/* Culinary Tips Advice Card */}
               <div className="mt-14 bg-secondary/40 border border-border/60 rounded-2xl p-6 sm:p-8">
                 <div className="flex items-center gap-2 mb-4">
                   <Lightbulb className="w-5 h-5 text-primary" />
@@ -335,14 +335,14 @@ export default function RecipeDetail() {
                 </ul>
               </div>
 
-              {/* User Dynamic Notes Input Section */}
+              {/* Interactive Notebook Component */}
               <CookingNotesSection recipeId={recipe.id} />
             </div>
           </div>
         </section>
 
-        {/* Cross Promotion Recommendations */}
-        <section className="mx-auto max-w-7xl w-full mt-20 lg:mt-28 mb-20">
+        {/* Suggestions Recommendations Component Grid */}
+        <section className="w-full mt-20 lg:mt-28 mb-20">
           <div className="flex items-end justify-between mb-10">
             <div>
               <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-2">You might also love</h2>
@@ -400,7 +400,7 @@ function CookingNotesSection({ recipeId }: { recipeId: string }) {
         <Textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Your tweaks, substitutions, or reminders... (e.g., used coconut instead of almond, doubled the ginger)"
+          placeholder="Your tweaks, substitutions, or reminders..."
           className="min-h-[80px] rounded-xl resize-none text-sm leading-relaxed"
         />
         <div className="flex justify-end mt-2">
