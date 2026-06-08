@@ -1,9 +1,9 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// Adjusted to lowercase file paths to match your repository filesystem
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+// Combining absolute path aliases with their exact true PascalCase filenames
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // All Pages - Exact Match to your lowercase disk filenames
 import Home from "./pages/home";
