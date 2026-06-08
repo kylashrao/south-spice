@@ -2,25 +2,25 @@ import React, { Suspense } from "react";
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// Note the Capital "P" in Pages to perfectly match your folder structure!
-import Home from "./Pages/home";
-import RecipeDetail from "./Pages/recipe-detail";
+// 1. Direct lowercase folder indexing matches your project's true disk layout
+import Home from "./pages/home";
+import RecipeDetail from "./pages/recipe-detail";
 
-// Dynamically lazy load the secondary pages using the exact matching path strings
-const SavedRecipes = React.lazy(() => import("./Pages/saved-recipes"));
-const MealPlanner = React.lazy(() => import("./Pages/meal-planner"));
-const GroceryList = React.lazy(() => import("./Pages/grocery-list"));
-const SharedRecipe = React.lazy(() => import("./Pages/shared-recipe"));
-const CategoryPage = React.lazy(() => import("./Pages/category"));
-const RegionsPage = React.lazy(() => import("./Pages/regions"));
-const NotFound = React.lazy(() => import("./Pages/not-found"));
+// 2. Safe Dynamic Lazy Bundles 
+const SavedRecipes = React.lazy(() => import("./pages/saved-recipes"));
+const MealPlanner = React.lazy(() => import("./pages/meal-planner"));
+const GroceryList = React.lazy(() => import("./pages/grocery-list"));
+const SharedRecipe = React.lazy(() => import("./pages/shared-recipe"));
+const CategoryPage = React.lazy(() => import("./pages/category"));
+const RegionsPage = React.lazy(() => import("./pages/regions"));
+const NotFound = React.lazy(() => import("./pages/not-found"));
 
 function App() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Toaster />
       
-      {/* Keeping Navbar and Footer commented out for our diagnostic check */}
+      {/* Keeping Navbar and Footer isolated for the blank page diagnostic check */}
       {/* <Navbar /> */}
 
       <main className="flex-1">
