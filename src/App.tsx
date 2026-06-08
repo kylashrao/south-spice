@@ -1,16 +1,19 @@
 import { Switch, Route } from "wouter";
 import Home from "./pages/home";
 import RecipeDetail from "./pages/recipe-detail";
-import SavedRecipes from "./pages/saved-recipes";
-import MealPlanner from "./pages/meal-planner";
-import GroceryList from "./pages/grocery-list";
-import SharedRecipe from "./pages/shared-recipe";
+// CHANGE THESE LINES:
+import SavedRecipes from "./pages/SavedRecipes";
+import MealPlanner from "./pages/MealPlanner";
+import GroceryList from "./pages/GroceryList";
+import SharedRecipe from "./pages/SharedRecipe";
+
 import CategoryPage from "./pages/category";
 import RegionsPage from "./pages/regions";
 import NotFound from "./pages/not-found";
 import { Toaster } from "@/components/ui/toaster";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+
 
 function App() {
   return (
