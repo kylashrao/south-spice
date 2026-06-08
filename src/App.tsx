@@ -3,11 +3,11 @@ import { Toaster } from "@/components/ui/toaster";
 
 // Explicitly pointing to your capital "Pages" folder using relative layout metrics
 import Home from "./Pages/home";
-import RecipeDetail from "./Pages/recipe-detail";
-import SavedRecipes from "./Pages/saved-recipes";
-import MealPlanner from "./Pages/meal-planner";
-import GroceryList from "./Pages/grocery-list";
-import SharedRecipe from "./Pages/shared-recipe";
+import SavedRecipes from "./Pages/SavedRecipes";
+import MealPlanner from "./Pages/MealPlanner";
+import GroceryList from "./Pages/GroceryList";
+import SharedRecipe from "./Pages/SharedRecipe";
+
 import CategoryPage from "./Pages/category";
 import RegionsPage from "./Pages/regions";
 import NotFound from "./Pages/not-found";
