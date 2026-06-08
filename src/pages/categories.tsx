@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
+//import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { mockRecipes, type Recipe } from "@/lib/mock-data";
 
@@ -77,7 +77,7 @@ export default function Categories() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar />
+      {/*<Navbar /> */}
 
       <main className="flex-1">
         <section className="relative overflow-hidden bg-gradient-to-b from-secondary/60 via-background to-background pt-16 pb-12 md:pt-24 md:pb-16">
