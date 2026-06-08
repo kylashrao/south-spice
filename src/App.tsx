@@ -1,18 +1,18 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// 1. Core Pages (Confirmed working lowercase folder structure)
+// 1. Core Pages (Confirmed working with lowercase filenames)
 import Home from "./pages/home";
 import RecipeDetail from "./pages/recipe-detail";
 
-// 2. Secondary Feature Pages 
-import SavedRecipes from "./pages/saved-recipes";
-import MealPlanner from "./pages/meal-planner";
-import GroceryList from "./pages/grocery-list";
-import SharedRecipe from "./pages/shared-recipe";
-import CategoryPage from "./pages/category";
-import RegionsPage from "./pages/regions";
-import NotFound from "./pages/not-found";
+// 2. Feature Pages (Updated to reflect exact capitalization on disk)
+import SavedRecipes from "./pages/SavedRecipes";
+import MealPlanner from "./pages/MealPlanner";
+import GroceryList from "./pages/GroceryList";
+import SharedRecipe from "./pages/SharedRecipe";
+import CategoryPage from "./pages/Category";
+import RegionsPage from "./pages/Regions";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
