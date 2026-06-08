@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock, ChefHat, Users, Bookmark, Printer, Utensils, Lightbulb, Check, Minus, Plus, RotateCcw, Flame, Pencil, Trash2 } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
+//import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { getRecipeBySlug, mockRecipes } from "@/lib/mock-data";
@@ -66,7 +66,7 @@ export default function RecipeDetail() {
     <div className="min-h-screen flex flex-col bg-background text-foreground antialiased">
       {/* 1. SCREEN WRAPPER: Hidden completely on native browser print layout */}
       <div className="flex-1 flex flex-col print:hidden">
-        <Navbar />
+        {/*<Navbar /> */}
 
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Navigation Action Breadcrumb */}
