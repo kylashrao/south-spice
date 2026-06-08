@@ -2,11 +2,13 @@ import { Switch, Route } from "wouter";
 import Home from "./pages/home";
 import RecipeDetail from "./pages/recipe-detail";
 // CHANGE THESE LINES:
-import SavedRecipes from "./pages/SavedRecipes";
-import MealPlanner from "./pages/MealPlanner";
-import GroceryList from "./pages/GroceryList";
-import SharedRecipe from "./pages/SharedRecipe";
-
+// Add explicit '.tsx' endings to clear the module resolution block:
+import SavedRecipes from "./pages/saved-recipes.tsx";
+import MealPlanner from "./pages/meal-planner.tsx";
+import GroceryList from "./pages/grocery-list.tsx";
+import SharedRecipe from "./pages/shared-recipe.tsx";
+import CategoryPage from "./pages/category.tsx";
+import RegionsPage from "./pages/regions.tsx";
 import CategoryPage from "./pages/category";
 import RegionsPage from "./pages/regions";
 import NotFound from "./pages/not-found";
