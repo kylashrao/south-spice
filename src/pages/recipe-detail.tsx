@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock, ChefHat, Users, Bookmark, Printer, Utensils, Lightbulb, Check, Minus, Plus, RotateCcw, Flame, Pencil, Trash2 } from "lucide-react";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { getRecipeBySlug, mockRecipes } from "@/lib/mock-data";
 import NotFound from "@/pages/not-found";
@@ -61,309 +63,317 @@ export default function RecipeDetail() {
   const suggestions = related.length >= 2 ? related : fallbackRelated;
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-background text-foreground antialiased">
-      {/* Print-only recipe card */}
-      <div className="print-only">
-        <PrintRecipeCard recipe={recipe} servings={servings} ratio={ratio} isAdjusted={isAdjusted} baseServings={baseServings} />
-      </div>
+    <div className="min-h-screen flex flex-col bg-background text-foreground antialiased">
+      {/* 1. SCREEN WRAPPER: Hidden completely on native browser print layout */}
+      <div className="flex-1 flex flex-col print:hidden">
+        <Navbar />
 
-      {/* Main Container Layer to force strict margins matching the navbar block */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 print-hidden">
-        
-        {/* Breadcrumb row */}
-        <div className="w-full mb-8">
-          <Link
-            href="/recipes"
-            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to recipes
-          </Link>
-        </div>
-
-        {/* Hero Section Split Layout */}
-        <section className="w-full mb-16">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            
-            {/* Meta Text Column */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              <div className="flex flex-wrap items-center gap-2 mb-5">
-                <span className="bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full">
-                  {recipe.region}
-                </span>
-                {recipe.tags.slice(0, 3).map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-secondary text-secondary-foreground text-xs font-medium px-3 py-1.5 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight text-foreground mb-5">
-                {recipe.title}
-              </h1>
-
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-8">
-                {recipe.description}
-              </p>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 max-w-xl">
-                <Stat icon={<Clock className="w-4 h-4" />} label="Cook" value={recipe.cookingTime} />
-                <Stat icon={<Utensils className="w-4 h-4" />} label="Prep" value={recipe.prepTime.split("(")[0].trim()} />
-                <Stat icon={<Users className="w-4 h-4" />} label="Serves" value={`${servings}`} />
-                <Stat icon={<ChefHat className="w-4 h-4" />} label="Level" value={recipe.difficulty} />
-              </div>
-
-              <div className="flex flex-wrap gap-3 mb-6">
-                <Button
-                  size="lg"
-                  onClick={handleSave}
-                  aria-pressed={saved}
-                  variant={saved ? "outline" : "default"}
-                  className="rounded-full px-6"
-                >
-                  {saved ? (
-                    <>
-                      <Check className="w-4 h-4 mr-2" />
-                      Saved
-                    </>
-                  ) : (
-                    <>
-                      <Bookmark className="w-4 h-4 mr-2" />
-                      Save Recipe
-                    </>
-                  )}
-                </Button>
-                <ShareMenu title={recipe.title} description={recipe.description} slug={recipe.slug} />
-                <Button size="lg" variant="ghost" className="rounded-full px-6" onClick={() => window.print()}>
-                  <Printer className="w-4 h-4 mr-2" />
-                  Print
-                </Button>
-              </div>
-
-              <div className="print-hidden">
-                <CookedRatingWidget recipeId={recipe.id} />
-              </div>
-            </motion.div>
-
-            {/* Featured Hero Asset Image */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-            >
-              <div className="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] shadow-xl border border-border/50">
-                <img
-                  src={recipe.image}
-                  alt={recipe.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Narrative Story Line */}
-        <section className="w-full mt-12 border-t pt-10">
-          <div className="max-w-3xl">
-            <h2 className="font-serif text-sm uppercase tracking-[0.2em] text-primary mb-3">The story</h2>
-            <p className="font-serif text-2xl sm:text-3xl leading-relaxed text-foreground/90 italic">
-              "{recipe.story}"
-            </p>
-          </div>
-        </section>
-
-        {/* Splitting Content Section Area */}
-        <section className="w-full mt-16 lg:mt-24">
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
-            
-            {/* Interactive Ingredients Panel Block */}
-            <aside className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
-              <div className="bg-card border border-border/80 rounded-2xl p-6 lg:p-8 shadow-sm">
-                <div className="flex items-baseline justify-between gap-3 mb-5">
-                  <h2 className="font-serif text-2xl font-semibold">Ingredients</h2>
-                  {isAdjusted && (
-                    <button
-                      type="button"
-                      onClick={reset}
-                      className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
-                    >
-                      <RotateCcw className="w-3 h-3" />
-                      Reset
-                    </button>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between gap-3 mb-6 p-3 rounded-xl bg-muted/50 border border-border/40">
-                  <div className="flex items-center gap-2 text-sm">
-                    <Users className="w-4 h-4 text-primary" />
-                    <span className="font-medium text-foreground">
-                      {servings} {servings === 1 ? "serving" : "servings"}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8 rounded-full"
-                      onClick={decrement}
-                      disabled={servings <= MIN_SERVINGS}
-                    >
-                      <Minus className="w-3.5 h-3.5" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8 rounded-full"
-                      onClick={increment}
-                      disabled={servings >= MAX_SERVINGS}
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="space-y-7">
-                  {recipe.ingredients.map((group) => (
-                    <div key={group.group}>
-                      <h3 className="font-serif text-xs uppercase tracking-[0.18em] text-primary mb-3">
-                        {group.group}
-                      </h3>
-                      <ul className="space-y-2.5">
-                        {group.items.map((item) => (
-                          <li
-                            key={item.name}
-                            className="flex items-baseline justify-between gap-3 py-2 border-b border-border/40 last:border-0"
-                          >
-                            <span className="text-sm text-foreground/85">{item.name}</span>
-                            <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">
-                              {scaleQuantity(item.quantity, ratio)}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </aside>
-
-            {/* Directions Content Section */}
-            <div className="lg:col-span-8">
-              <div className="flex items-start justify-between gap-4 mb-2 flex-wrap">
-                <h2 className="font-serif text-3xl sm:text-4xl font-semibold">Method</h2>
-                <Button
-                  type="button"
-                  onClick={() => setCookModeOpen(true)}
-                  className="rounded-full gap-2"
-                >
-                  <Flame className="w-4 h-4" />
-                  Cook Mode
-                </Button>
-              </div>
-              <p className="text-muted-foreground mb-10">
-                Take your time. Cooking is best when it is unhurried.
-              </p>
-
-              <ol className="space-y-8">
-                {recipe.steps.map((step, idx) => (
-                  <motion.li
-                    key={step.title}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.5, delay: idx * 0.05 }}
-                    className="flex gap-5 sm:gap-6"
-                  >
-                    <div className="flex-shrink-0">
-                      <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-serif text-lg font-semibold shadow-sm">
-                        {idx + 1}
-                      </div>
-                    </div>
-                    <div className="pt-1.5">
-                      <h3 className="font-serif text-xl sm:text-2xl font-semibold mb-2 leading-tight">
-                        {step.title}
-                      </h3>
-                      <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-                        {step.body}
-                      </p>
-                    </div>
-                  </motion.li>
-                ))}
-              </ol>
-
-              {/* Suggestions Block */}
-              <div className="mt-16">
-                <h2 className="font-serif text-3xl font-semibold mb-2">Serving suggestions</h2>
-                <p className="text-muted-foreground mb-6">A few ways to make it a meal.</p>
-                <ul className="space-y-3">
-                  {recipe.servingSuggestions.map((suggestion) => (
-                    <li
-                      key={suggestion}
-                      className="flex gap-3 items-start text-foreground/85 leading-relaxed"
-                    >
-                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
-                      <span>{suggestion}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Culinary Tips Advice Card */}
-              <div className="mt-14 bg-secondary/40 border border-border/60 rounded-2xl p-6 sm:p-8">
-                <div className="flex items-center gap-2 mb-4">
-                  <Lightbulb className="w-5 h-5 text-primary" />
-                  <h2 className="font-serif text-2xl font-semibold">Cook's notes</h2>
-                </div>
-                <ul className="space-y-3">
-                  {recipe.tips.map((tip) => (
-                    <li
-                      key={tip}
-                      className="text-foreground/80 leading-relaxed before:content-['—'] before:mr-2 before:text-primary"
-                    >
-                      {tip}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Interactive Notebook Component */}
-              <CookingNotesSection recipeId={recipe.id} />
-            </div>
-          </div>
-        </section>
-
-        {/* Suggestions Recommendations Component Grid */}
-        <section className="w-full mt-20 lg:mt-28 mb-20">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-2">You might also love</h2>
-              <p className="text-muted-foreground">More recipes from the same world of flavors.</p>
-            </div>
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Navigation Action Breadcrumb */}
+          <div className="w-full mb-8">
             <Link
               href="/recipes"
-              className="hidden sm:inline-block text-sm font-medium text-primary hover:underline underline-offset-4"
+              className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
             >
-              Browse all recipes →
+              <ArrowLeft className="w-4 h-4" />
+              Back to recipes
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {suggestions.map((r, idx) => (
-              <RecipeCard key={r.id} recipe={r} index={idx} />
-            ))}
-          </div>
-        </section>
-      </main>
-      
+          {/* Hero Section Split Grid */}
+          <section className="w-full mb-16">
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+              
+              {/* Content Column details */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <div className="flex flex-wrap items-center gap-2 mb-5">
+                  <span className="bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full">
+                    {recipe.region}
+                  </span>
+                  {recipe.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-secondary text-secondary-foreground text-xs font-medium px-3 py-1.5 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight text-foreground mb-5">
+                  {recipe.title}
+                </h1>
+
+                <p className="text-lg text-muted-foreground leading-relaxed max-w-xl mb-8">
+                  {recipe.description}
+                </p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 max-w-xl">
+                  <Stat icon={<Clock className="w-4 h-4" />} label="Cook" value={recipe.cookingTime} />
+                  <Stat icon={<Utensils className="w-4 h-4" />} label="Prep" value={recipe.prepTime.split("(")[0].trim()} />
+                  <Stat icon={<Users className="w-4 h-4" />} label="Serves" value={`${servings}`} />
+                  <Stat icon={<ChefHat className="w-4 h-4" />} label="Level" value={recipe.difficulty} />
+                </div>
+
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <Button
+                    size="lg"
+                    onClick={handleSave}
+                    aria-pressed={saved}
+                    variant={saved ? "outline" : "default"}
+                    className="rounded-full px-6"
+                  >
+                    {saved ? (
+                      <>
+                        <Check className="w-4 h-4 mr-2" />
+                        Saved
+                      </>
+                    ) : (
+                      <>
+                        <Bookmark className="w-4 h-4 mr-2" />
+                        Save Recipe
+                      </>
+                    )}
+                  </Button>
+                  <ShareMenu title={recipe.title} description={recipe.description} slug={recipe.slug} />
+                  <Button size="lg" variant="ghost" className="rounded-full px-6" onClick={() => window.print()}>
+                    <Printer className="w-4 h-4 mr-2" />
+                    Print
+                  </Button>
+                </div>
+
+                <div>
+                  <CookedRatingWidget recipeId={recipe.id} />
+                </div>
+              </motion.div>
+
+              {/* Banner Graphic Column */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+              >
+                <div className="relative rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] shadow-xl border border-border/50">
+                  <img
+                    src={recipe.image}
+                    alt={recipe.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Narrative Block */}
+          <section className="w-full mt-12 border-t pt-10">
+            <div className="max-w-3xl">
+              <h2 className="font-serif text-sm uppercase tracking-[0.2em] text-primary mb-3">The story</h2>
+              <p className="font-serif text-2xl sm:text-3xl leading-relaxed text-foreground/90 italic">
+                "{recipe.story}"
+              </p>
+            </div>
+          </section>
+
+          {/* Splits Segment Details Area */}
+          <section className="w-full mt-16 lg:mt-24">
+            <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
+              
+              {/* Ingredients Aside Grid Column */}
+              <aside className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
+                <div className="bg-card border border-border/80 rounded-2xl p-6 lg:p-8 shadow-sm">
+                  <div className="flex items-baseline justify-between gap-3 mb-5">
+                    <h2 className="font-serif text-2xl font-semibold">Ingredients</h2>
+                    {isAdjusted && (
+                      <button
+                        type="button"
+                        onClick={reset}
+                        className="text-xs text-muted-foreground hover:text-primary inline-flex items-center gap-1"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        Reset
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-between gap-3 mb-6 p-3 rounded-xl bg-muted/50 border border-border/40">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Users className="w-4 h-4 text-primary" />
+                      <span className="font-medium text-foreground">
+                        {servings} {servings === 1 ? "serving" : "servings"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 rounded-full"
+                        onClick={decrement}
+                        disabled={servings <= MIN_SERVINGS}
+                      >
+                        <Minus className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 rounded-full"
+                        onClick={increment}
+                        disabled={servings >= MAX_SERVINGS}
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-7">
+                    {recipe.ingredients.map((group) => (
+                      <div key={group.group}>
+                        <h3 className="font-serif text-xs uppercase tracking-[0.18em] text-primary mb-3">
+                          {group.group}
+                        </h3>
+                        <ul className="space-y-2.5">
+                          {group.items.map((item) => (
+                            <li
+                              key={item.name}
+                              className="flex items-baseline justify-between gap-3 py-2 border-b border-border/40 last:border-0"
+                            >
+                              <span className="text-sm text-foreground/85">{item.name}</span>
+                              <span className="text-sm font-medium text-muted-foreground whitespace-nowrap">
+                                {scaleQuantity(item.quantity, ratio)}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </aside>
+
+              {/* Method column */}
+              <div className="lg:col-span-8">
+                <div className="flex items-start justify-between gap-4 mb-2 flex-wrap">
+                  <h2 className="font-serif text-3xl sm:text-4xl font-semibold">Method</h2>
+                  <Button
+                    type="button"
+                    onClick={() => setCookModeOpen(true)}
+                    className="rounded-full gap-2"
+                  >
+                    <Flame className="w-4 h-4" />
+                    Cook Mode
+                  </Button>
+                </div>
+                <p className="text-muted-foreground mb-10">
+                  Take your time. Cooking is best when it is unhurried.
+                </p>
+
+                <ol className="space-y-8">
+                  {recipe.steps.map((step, idx) => (
+                    <motion.li
+                      key={step.title}
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.5, delay: idx * 0.05 }}
+                      className="flex gap-5 sm:gap-6"
+                    >
+                      <div className="flex-shrink-0">
+                        <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-serif text-lg font-semibold shadow-sm">
+                          {idx + 1}
+                        </div>
+                      </div>
+                      <div className="pt-1.5">
+                        <h3 className="font-serif text-xl sm:text-2xl font-semibold mb-2 leading-tight">
+                          {step.title}
+                        </h3>
+                        <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
+                          {step.body}
+                        </p>
+                      </div>
+                    </motion.li>
+                  ))}
+                </ol>
+
+                <div className="mt-16">
+                  <h2 className="font-serif text-3xl font-semibold mb-2">Serving suggestions</h2>
+                  <p className="text-muted-foreground mb-6">A few ways to make it a meal.</p>
+                  <ul className="space-y-3">
+                    {recipe.servingSuggestions.map((suggestion) => (
+                      <li
+                        key={suggestion}
+                        className="flex gap-3 items-start text-foreground/85 leading-relaxed"
+                      >
+                        <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                        <span>{suggestion}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-14 bg-secondary/40 border border-border/60 rounded-2xl p-6 sm:p-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Lightbulb className="w-5 h-5 text-primary" />
+                    <h2 className="font-serif text-2xl font-semibold">Cook's notes</h2>
+                  </div>
+                  <ul className="space-y-3">
+                    {recipe.tips.map((tip) => (
+                      <li
+                        key={tip}
+                        className="text-foreground/80 leading-relaxed before:content-['—'] before:mr-2 before:text-primary"
+                      >
+                        {tip}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <CookingNotesSection recipeId={recipe.id} />
+              </div>
+            </div>
+          </section>
+
+          {/* Bottom Recommendations Carousel Block Grid */}
+          <section className="w-full mt-20 lg:mt-28 mb-12">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-2">You might also love</h2>
+                <p className="text-muted-foreground">More recipes from the same world of flavors.</p>
+              </div>
+              <Link
+                href="/recipes"
+                className="hidden sm:inline-block text-sm font-medium text-primary hover:underline underline-offset-4"
+              >
+                Browse all recipes →
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {suggestions.map((r, idx) => (
+                <RecipeCard key={r.id} recipe={r} index={idx} />
+              ))}
+            </div>
+          </section>
+        </main>
+
+        <Footer />
+      </div>
+
+      {/* 2. PRINT ONLY WRAPPER: Enforced separation layout via pure tailwind styles */}
+      <div className="hidden print:block w-full">
+        <PrintRecipeCard 
+          recipe={recipe} 
+          servings={servings} 
+          ratio={ratio} 
+          isAdjusted={isAdjusted} 
+          baseServings={baseServings} 
+        />
+      </div>
+
       <CookMode
         open={cookModeOpen}
         onOpenChange={setCookModeOpen}
