@@ -2,7 +2,7 @@ import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
 // Using the strict absolute path mapping alias matching your folder
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 
 // All Pages - Lowercase disk match
 import Home from "./pages/home";
