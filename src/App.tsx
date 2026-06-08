@@ -1,11 +1,11 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// Bypassing path alias bugs by using direct file-level tracking strings
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+// Verified Local Relative Paths + Verified Lowercase Filenames
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 
-// All Pages - Exact Match to your lowercase disk filenames
+// All Pages - Completely aligned with your repository disk layout
 import Home from "./pages/home";
 import Recipes from "./pages/recipes";
 import RecipeDetail from "./pages/recipe-detail";
