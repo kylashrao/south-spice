@@ -1,9 +1,9 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// Core Layout Wrappers
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+// Switching to the alias mapping syntax to perfectly match your project layout setup
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // All Pages - Exact Match to your lowercase disk filenames
 import Home from "./pages/home";
