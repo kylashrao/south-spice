@@ -1,16 +1,16 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 
-// Explicitly pointing to your capital "Pages" folder using relative layout metrics
-import Home from "./Pages/home";
-import SavedRecipes from "./Pages/SavedRecipes";
-import MealPlanner from "./Pages/MealPlanner";
-import GroceryList from "./Pages/GroceryList";
-import SharedRecipe from "./Pages/SharedRecipe";
-
-import CategoryPage from "./Pages/category";
-import RegionsPage from "./Pages/regions";
-import NotFound from "./Pages/not-found";
+// Bypassing folder-name checking by jumping straight out and back into the explicit file names
+import Home from "../src/pages/home";
+import RecipeDetail from "../src/pages/recipe-detail";
+import SavedRecipes from "../src/pages/saved-recipes";
+import MealPlanner from "../src/pages/meal-planner";
+import GroceryList from "../src/pages/grocery-list";
+import SharedRecipe from "../src/pages/shared-recipe";
+import CategoryPage from "../src/pages/category";
+import RegionsPage from "./pages/regions"; 
+import NotFound from "../src/pages/not-found";
 
 function App() {
   return (
