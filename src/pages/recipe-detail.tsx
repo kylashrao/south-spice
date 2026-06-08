@@ -22,8 +22,9 @@ import { Textarea } from "@/components/ui/textarea";
 const MIN_SERVINGS = 1;
 const MAX_SERVINGS = 24;
 
-export default function RecipeDetail() {
-  const [params] = useRoute("/recipes/:slug");
+// To this (Destructuring the params prop sent by App.tsx):
+export default function RecipeDetail({ params }: { params: { slug: string } }) {
+  //const [params] = useRoute("/recipes/:slug");
   const [, setLocation] = useLocation();
   const [cookModeOpen, setCookModeOpen] = useState(false);
 
