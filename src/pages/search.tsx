@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Search as SearchIcon, SlidersHorizontal } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
+//import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/recipe/RecipeCard";
@@ -58,7 +58,7 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Navbar />
+      {/*<Navbar /> */}
 
       <main className="flex-1">
         <section className="relative bg-gradient-to-b from-secondary/50 via-background to-background pt-12 pb-10 md:pt-16 md:pb-12">
