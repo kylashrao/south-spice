@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Mail, Clock, BookOpen, Sparkles, ArrowRight, Check } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
+//import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { SubscribeForm } from "@/components/subscribe/SubscribeForm";
@@ -48,7 +48,7 @@ export default function NewsletterPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar />
+      {/*<Navbar /> */}
 
       <main className="flex-1">
         {/* Hero */}
